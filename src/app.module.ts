@@ -14,13 +14,16 @@ import { AuthModule } from './auth/auth.module';
       isGlobal: true,
     }),
     JwtModule.registerAsync({
-      inject: [ConfigService],
       useFactory(configService: ConfigService) {
         const SECERT = configService.get('SECERT');
         return {
+          signOptions: {
+            expiresIn: configService.get<string>('JWT_EXPIRESIN'),
+          },
           secret: SECERT,
         };
       },
+      inject: [ConfigService],
     }),
     DbModule.forRoot('MONGO_URI'),
     DbModule.forFeature([User]),

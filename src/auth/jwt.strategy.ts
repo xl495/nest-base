@@ -5,6 +5,12 @@ import { User } from '@app/db/schemas/user.schemas';
 import { ReturnModelType } from '@typegoose/typegoose';
 import { ConfigService } from '@nestjs/config';
 
+type validateData = {
+  id: string;
+  iat?: number;
+  exp?: number;
+};
+
 export class JwtStrateggy extends PassportStrategy(Strategy) {
   constructor(
     private configService: ConfigService,
@@ -16,7 +22,7 @@ export class JwtStrateggy extends PassportStrategy(Strategy) {
     } as StrategyOptions);
   }
 
-  async validate(id: string) {
-    return await this.userModel.findById(id);
+  async validate(data: validateData) {
+    return await this.userModel.findById(data.id);
   }
 }
