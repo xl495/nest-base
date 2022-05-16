@@ -14,6 +14,10 @@ export class DbModule {
         inject: [ConfigService],
         useFactory: (configService: ConfigService) => {
           const uri = configService.get<string>(envKey, 'MONGO_URI');
+          const mongoConnection = mongoose.connection;
+          mongoConnection.once('open', function () {
+            console.log('数据库连接成功！');
+          });
           return mongoose.connect(uri, options);
         },
       },

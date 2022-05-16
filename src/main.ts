@@ -12,6 +12,7 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-dosc', app, document);
+  console.log('apidoc - http://localhost:3000/api-dosc');
   await app.listen(3000);
 }
 bootstrap();
